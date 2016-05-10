@@ -34,6 +34,10 @@ switch (process.env.npm_lifecycle_event) {
         'process.env.NODE_ENV',
         'production'
       ),
+      webpackUtils.extractBundle({
+        name: 'vendor',
+        entries: ['react']
+      }),
       webpackUtils.setupCss(PATHS.app),
       webpackUtils.minify()
     );
