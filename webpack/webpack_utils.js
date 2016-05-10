@@ -1,6 +1,22 @@
 const webpack = require('webpack');
 
-module.exports = function (options) {
+exports.setupCss = function (paths) {
+  return {
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+          // If include isn't set,
+          // Webpack will traverse all files within the base directory.
+          include: paths
+        }
+      ]
+    }
+  };
+};
+
+exports.devServer = function (options) {
   return {
     devServer: {
       // Enable history API fallback so HTML5 History API based
@@ -33,6 +49,37 @@ module.exports = function (options) {
       new webpack.HotModuleReplacementPlugin({
         multiStep: true
       })
+    ]
+  };
+};
+
+exports.minify = function() {
+  return {
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        },
+        mangle: {
+          // Mangle matching properties
+          props: /matching_props/,
+          // Don't mangle these
+          except: [
+            'Array', 'BigInteger', 'Boolean', 'Buffer'
+          ]
+        }
+      })
+    ]
+  };
+};
+
+exports.setFreeVariable = function (key, value) {
+  const env = {};
+  env[key] = JSON.stringify(value);
+
+  return {
+    plugins: [
+      new webpack.DefinePlugin(env)
     ]
   };
 };

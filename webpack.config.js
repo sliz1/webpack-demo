@@ -3,8 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const validate = require('webpack-validator');
 
-const devServer = require('./webpack/dev_server');
-const styleUtils = require('./webpack/style_utils');
+const webpackUtils = require('./webpack/webpack_utils');
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
@@ -31,17 +30,22 @@ switch (process.env.npm_lifecycle_event) {
   case 'build':
     config = merge(
       common,
-      styleUtils.setupCss(PATHS.app)
+      webpackUtils.setFreeVariable(
+        'process.env.NODE_ENV',
+        'production'
+      ),
+      webpackUtils.setupCss(PATHS.app),
+      webpackUtils.minify()
     );
     break;
   default:
     config = merge(
       common,
-      styleUtils.setupCss(PATHS.app),
+      webpackUtils.setupCss(PATHS.app),
       {
         devtool: 'eval-source-map'
       },
-      devServer({
+      webpackUtils.devServer({
         // Customize host/port here if needed
         host: process.env.HOST,
         port: process.env.PORT
