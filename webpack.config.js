@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const validate = require('webpack-validator');
 
 const devServer = require('./webpack/dev_server');
+const styleUtils = require('./webpack/style_utils');
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
@@ -28,11 +29,18 @@ const common = {
 var config;
 switch (process.env.npm_lifecycle_event) {
   case 'build':
-    config = merge(common, {});
+    config = merge(
+      common,
+      styleUtils.setupCss(PATHS.app)
+    );
     break;
   default:
     config = merge(
       common,
+      styleUtils.setupCss(PATHS.app),
+      {
+        devtool: 'eval-source-map'
+      },
       devServer({
         // Customize host/port here if needed
         host: process.env.HOST,
