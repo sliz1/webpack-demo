@@ -29,7 +29,9 @@ var config;
 switch (process.env.npm_lifecycle_event) {
   case 'build':
     config = merge(
-      common,
+      common, {
+        devtool: 'source-map'
+      },
       webpackUtils.setFreeVariable(
         'process.env.NODE_ENV',
         'production'
@@ -38,8 +40,8 @@ switch (process.env.npm_lifecycle_event) {
         name: 'vendor',
         entries: ['react']
       }),
-      webpackUtils.setupCss(PATHS.app),
-      webpackUtils.minify()
+      webpackUtils.minify(),
+      webpackUtils.setupCss(PATHS.app)
     );
     break;
   default:
