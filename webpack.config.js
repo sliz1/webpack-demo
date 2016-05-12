@@ -33,6 +33,7 @@ const common = {
 var config;
 switch (process.env.npm_lifecycle_event) {
   case 'build':
+  case 'stats':
     config = merge(
       common, {
         devtool: 'source-map',
