@@ -7,12 +7,17 @@ const webpackUtils = require('./webpack/webpack_utils');
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, 'build')
+  build: path.join(__dirname, 'build'),
+  style: [
+    path.join(__dirname, 'node_modules', 'purecss'),
+    path.join(__dirname, 'app', 'main.css')
+  ]
 };
 
 const common = {
   entry: {
-    app: PATHS.app
+    app: PATHS.app,
+    style: PATHS.style
   },
   output: {
     path: PATHS.build,
@@ -49,15 +54,16 @@ switch (process.env.npm_lifecycle_event) {
         entries: ['react']
       }),
       webpackUtils.minify(),
-      webpackUtils.extractCSS(PATHS.app)
+      webpackUtils.extractCSS(PATHS.style),
+      webpackUtils.purifyCSS([PATHS.app])
     );
     break;
   default:
     config = merge(
       common,
-      webpackUtils.setupCss(PATHS.app),
+      webpackUtils.setupCss(PATHS.style),
       {
-        devtool: 'cheap-module-source-map'
+        devtool: 'inline-source-map'
       },
       webpackUtils.devServer({
         // Customize host/port here if needed
