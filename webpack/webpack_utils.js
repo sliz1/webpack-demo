@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 exports.setupCss = function (paths) {
   return {
@@ -84,7 +85,6 @@ exports.setFreeVariable = function (key, value) {
   };
 };
 
-
 exports.extractBundle = function(options) {
   const entry = {};
   entry[options.name] = options.entries;
@@ -100,6 +100,18 @@ exports.extractBundle = function(options) {
 
         // options.name modules only
         minChunks: Infinity
+      })
+    ]
+  };
+};
+
+exports.clean = function(path) {
+  return {
+    plugins: [
+      new CleanWebpackPlugin([path], {
+        // Without `root` CleanWebpackPlugin won't point to our
+        // project and will fail to work.
+        root: process.cwd()
       })
     ]
   };
