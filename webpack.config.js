@@ -47,7 +47,7 @@ switch (process.env.npm_lifecycle_event) {
       common,
       webpackUtils.setupCss(PATHS.app),
       {
-        devtool: 'eval-source-map'
+        devtool: 'cheap-module-source-map'
       },
       webpackUtils.devServer({
         // Customize host/port here if needed

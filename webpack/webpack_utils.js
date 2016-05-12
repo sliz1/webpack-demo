@@ -103,4 +103,4 @@ exports.extractBundle = function(options) {
       })
     ]
   };
-}
+};
