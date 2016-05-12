@@ -21,7 +21,10 @@ const common = {
   },
   output: {
     path: PATHS.build,
-    filename: '[name].js'
+    filename: '[name].js',
+    
+    // Tweak this to match your GitHub project name
+    publicPath: '/webpack-demo/'
   },
   plugins: [
     new HtmlWebpackPlugin({
