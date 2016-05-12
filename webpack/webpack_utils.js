@@ -82,14 +82,7 @@ exports.minify = function() {
         compress: {
           warnings: false
         },
-        mangle: {
-          // Mangle matching properties
-          props: /matching_props/,
-          // Don't mangle these
-          except: [
-            'Array', 'BigInteger', 'Boolean', 'Buffer'
-          ]
-        }
+        mangle: false
       })
     ]
   };

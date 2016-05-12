@@ -17,6 +17,7 @@ const PATHS = {
 const common = {
   entry: {
     app: PATHS.app,
+    vendor: ['react'],
     style: PATHS.style
   },
   output: {
@@ -41,10 +42,7 @@ switch (process.env.npm_lifecycle_event) {
           filename: '[name].[chunkhash].js',
           // This is used for require.ensure. The setup
           // will work without but this is useful to set.
-          chunkFilename: '[chunkhash].js',
-
-          // Tweak this to match your GitHub project name
-          publicPath: '/webpack-demo/'
+          chunkFilename: '[chunkhash].js'
         }
       },
       webpackUtils.clean(PATHS.build),
@@ -52,10 +50,10 @@ switch (process.env.npm_lifecycle_event) {
         'process.env.NODE_ENV',
         'production'
       ),
-      webpackUtils.extractBundle({
-        name: 'vendor',
-        entries: ['react']
-      }),
+      // webpackUtils.extractBundle({
+      //   name: 'vendor',
+      //   entries: ['react']
+      // }),
       webpackUtils.minify(),
       webpackUtils.extractCSS(PATHS.style),
       webpackUtils.purifyCSS([PATHS.app])
