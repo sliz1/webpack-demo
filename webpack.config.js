@@ -49,7 +49,7 @@ switch (process.env.npm_lifecycle_event) {
         entries: ['react']
       }),
       webpackUtils.minify(),
-      webpackUtils.setupCss(PATHS.app)
+      webpackUtils.extractCSS(PATHS.app)
     );
     break;
   default:
