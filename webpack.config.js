@@ -21,10 +21,7 @@ const common = {
   },
   output: {
     path: PATHS.build,
-    filename: '[name].js',
-    
-    // Tweak this to match your GitHub project name
-    publicPath: '/webpack-demo/'
+    filename: '[name].js'
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -39,13 +36,15 @@ switch (process.env.npm_lifecycle_event) {
   case 'stats':
     config = merge(
       common, {
-        devtool: 'source-map',
         output: {
           path: PATHS.build,
           filename: '[name].[chunkhash].js',
           // This is used for require.ensure. The setup
           // will work without but this is useful to set.
-          chunkFilename: '[chunkhash].js'
+          chunkFilename: '[chunkhash].js',
+
+          // Tweak this to match your GitHub project name
+          publicPath: '/webpack-demo/'
         }
       },
       webpackUtils.clean(PATHS.build),
